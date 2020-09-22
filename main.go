@@ -3,9 +3,9 @@ package main
 import (
 	"net/http"
 
-	"github.com/codegangsta/negroni"
 	sessions "github.com/goincremental/negroni-sessions"
 	"github.com/goincremental/negroni-sessions/cookiestore"
+	"github.com/urfave/negroni"
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/unrolled/render"
@@ -30,6 +30,17 @@ func main() {
 
 	router.GET("/", func(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
 		renderer.HTML(w, http.StatusOK, "index", map[string]string{"title": "Twan Chat!"})
+	})
+
+	router.GET("/login", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		// ログイン画面を表示
+		renderer.HTML(w, http.StatusOK, "login", nil)
+	})
+
+	router.GET("/logout", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		// セッション情報を削除し、ログイン画面に遷移
+		sessions.GetSession(r).Delete(currentUserKey)
+		http.Redirect(w, r, "/login", http.StatusFound)
 	})
 
 	// negroniミドルウェア生成
