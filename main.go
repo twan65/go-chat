@@ -43,11 +43,16 @@ func main() {
 		http.Redirect(w, r, "/login", http.StatusFound)
 	})
 
+	router.GET("/auth/:action/:provider", loginHandler)
+
 	// negroniミドルウェア生成
 	n := negroni.Classic()
 
 	store := cookiestore.New([]byte(sessionSecret))
 	n.Use(sessions.Sessions(sessionKey, store))
+
+	// LoginRequiredハンドラをnegroniに登録
+	n.Use(LoginRequired("/login", "/auth"))
 
 	// negroniにrouterをハンドラとして登録
 	n.UseHandler(router)
