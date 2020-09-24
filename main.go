@@ -57,6 +57,9 @@ func main() {
 
 	router.GET("/auth/:action/:provider", loginHandler)
 
+	router.POST("/rooms", createRoom)
+	router.GET("/rooms", retrieveRooms)
+
 	// negroniミドルウェア生成
 	n := negroni.Classic()
 
