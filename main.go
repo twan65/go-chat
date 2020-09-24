@@ -6,21 +6,33 @@ import (
 	sessions "github.com/goincremental/negroni-sessions"
 	"github.com/goincremental/negroni-sessions/cookiestore"
 	"github.com/urfave/negroni"
+	"gopkg.in/mgo.v2"
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/unrolled/render"
 )
-
-var renderer *render.Render
 
 const (
 	sessionKey    = "twan_chat_session"
 	sessionSecret = "twan_chat_session_secret"
 )
 
+var (
+	renderer     *render.Render
+	mongoSession *mgo.Session
+)
+
 func init() {
 	// renderer生成
 	renderer = render.New()
+
+	// MongoDB接続セッションを作成
+	s, err := mgo.Dial("mongodb://localhost")
+	if err != nil {
+		panic(err)
+	}
+
+	mongoSession = s
 }
 
 func main() {
