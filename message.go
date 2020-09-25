@@ -9,7 +9,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-const messageFetchSize = 10
+const MSG_FETCH_SIZE = 10
 
 type Message struct {
 	ID        bson.ObjectId `bson:"_id" json:"id"`
@@ -47,7 +47,7 @@ func retrieveMessages(w http.ResponseWriter, r *http.Request, ps httprouter.Para
 	limit, err := strconv.Atoi(r.URL.Query().Get("limit"))
 	if err != nil {
 		// 正常のlimit値ではない場合limitをmessageFetchSizeでセット
-		limit = messageFetchSize
+		limit = MSG_FETCH_SIZE
 	}
 
 	var messages []Message
