@@ -1,0 +1,64 @@
+<div class="page-header">
+    <h4>チャットルームリスト</h4>
+</div>
+<div id="rooms" class="list-group">
+</div>
+<form class="input-group">
+    <input id="room-name" type="text" class="form-control" placeholder="방 이름 입력">
+    <span class="input-group-btn">
+        <button id="create-room" class="btn btn-default" type="submit">방 생성</button>
+    </span>
+</form>
+<script>
+    var currentRoomId = null;
+  
+    var createRoomBox = function(room) {
+        $("#rooms").prepend(
+            $("<a>").attr("id", room.id)
+                .attr("href", "#")
+                .text(room.name)
+                .addClass("list-group-item")
+                .bind("click", function(e) {
+                    e.preventDefault();
+  
+                    // チャットルーム押下時、ルームに参加
+                    var roomId = $(this).attr("id");
+                    if (currentRoomId) {
+                        $("#rooms #" + currentRoomId).removeClass("active")
+                    }
+                    $("#rooms #" + roomId).addClass("active")
+                    enterRoom(roomId);
+                    currentRoomId = roomId;
+                }));
+        $("#room-name").val("");
+  
+        activateRoom(room.id);
+    };
+  
+    var activateRoom = function(roomId){
+        if (currentRoomId) {
+            $("#rooms #" + currentRoomId).removeClass("active")
+        }
+        $("#rooms #" + roomId).addClass("active")
+        enterRoom(roomId);
+        currentRoomId = roomId;
+        }
+  
+        $(document).ready(function() {
+            // "create-room"押下時、"POST /rooms"を呼び出し、チャットルーム情報を生成
+            // チャットルーム生成した後、チャットルーム情報を画面に表示
+            $("#create-room").click(function() {
+                $.post("/rooms", { name: $("#room-name").val() },
+                    function(data, status) {
+                        var room = JSON.parse(data);
+                        createRoomBox(room);
+                    });
+        });
+       
+        $.get("/rooms", function(rooms) {
+            for (var i = 0; i < rooms.length; i++) {
+                createRoomBox(rooms[i]);
+            };
+        })
+    });
+</script>
