@@ -63,9 +63,10 @@ func main() {
 	})
 
 	router.GET("/auth/:action/:provider", loginHandler)
-
-	router.POST("/rooms", createRoom)
 	router.GET("/rooms", retrieveRooms)
+	router.GET("/rooms/:id", retrieveRoom)
+	router.POST("/rooms", createRoom)
+	router.DELETE("/rooms/:id", deleteRoom)
 
 	router.GET("/rooms/:id/messages", retrieveMessages)
 
