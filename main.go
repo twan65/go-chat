@@ -34,7 +34,7 @@ func init() {
 	renderer = render.New()
 
 	// MongoDB接続セッションを作成
-	s, err := mgo.Dial("mongodb://localhost")
+	s, err := mgo.Dial("mongodb://127.0.0.1:27017")
 	if err != nil {
 		panic(err)
 	}
