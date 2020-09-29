@@ -18,8 +18,8 @@ const SOCKET_BUFFER_SIZE = 1024
 
 var (
 	upgrader = &websocket.Upgrader{
-		ReadBufferSize:  socketBufferSize,
-		WriteBufferSize: socketBufferSize,
+		ReadBufferSize:  SOCKET_BUFFER_SIZE,
+		WriteBufferSize: SOCKET_BUFFER_SIZE,
 	}
 )
 
