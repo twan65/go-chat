@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"time"
 
 	sessions "github.com/goincremental/negroni-sessions"
 	"github.com/goincremental/negroni-sessions/cookiestore"
@@ -33,12 +34,22 @@ func init() {
 	// renderer生成
 	renderer = render.New()
 
+	mongoInfo := &mgo.DialInfo{
+		Addrs:    []string{"localhost:27017"},
+		Timeout:  20 * time.Second,
+		Database: "",
+		Username: "twan",
+		Password: "1234",
+		Source:   "",
+	}
+
 	// MongoDB接続セッションを作成
-	s, err := mgo.Dial("mongodb://127.0.0.1:27017")
+	s, err := mgo.DialWithInfo(mongoInfo)
 	if err != nil {
 		panic(err)
 	}
 
+	s.SetMode(mgo.Monotonic, true)
 	mongoSession = s
 }
 
