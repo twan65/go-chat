@@ -14,23 +14,19 @@ import (
 	"github.com/unrolled/render"
 )
 
-const SOCKET_BUFFER_SIZE = 1024
-
-var (
-	upgrader = &websocket.Upgrader{
-		ReadBufferSize:  SOCKET_BUFFER_SIZE,
-		WriteBufferSize: SOCKET_BUFFER_SIZE,
-	}
-)
-
 const (
-	sessionKey    = "twan_chat_session"
-	sessionSecret = "twan_chat_session_secret"
+	sessionKey         = "twan_chat_session"
+	sessionSecret      = "twan_chat_session_secret"
+	SOCKET_BUFFER_SIZE = 1024
 )
 
 var (
 	renderer     *render.Render
 	mongoSession *mgo.Session
+	upgrader     = &websocket.Upgrader{
+		ReadBufferSize:  SOCKET_BUFFER_SIZE,
+		WriteBufferSize: SOCKET_BUFFER_SIZE,
+	}
 )
 
 func init() {
@@ -51,8 +47,8 @@ func main() {
 	// Router生成
 	router := httprouter.New()
 
-	router.GET("/", func(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
-		renderer.HTML(w, http.StatusOK, "index", map[string]string{"title": "Twan Chat!"})
+	router.GET("/", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		renderer.HTML(w, http.StatusOK, "index", map[string]interface{}{"host": r.Host})
 	})
 
 	router.GET("/login", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
