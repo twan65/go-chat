@@ -1,15 +1,26 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	sessions "github.com/goincremental/negroni-sessions"
 	"github.com/goincremental/negroni-sessions/cookiestore"
+	"github.com/gorilla/websocket"
 	"github.com/urfave/negroni"
 	"gopkg.in/mgo.v2"
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/unrolled/render"
+)
+
+const SOCKET_BUFFER_SIZE = 1024
+
+var (
+	upgrader = &websocket.Upgrader{
+		ReadBufferSize:  socketBufferSize,
+		WriteBufferSize: socketBufferSize,
+	}
 )
 
 const (
@@ -61,6 +72,15 @@ func main() {
 	router.GET("/rooms", retrieveRooms)
 
 	router.GET("/rooms/:id/messages", retrieveMessages)
+
+	router.GET("/ws/:room_id", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		socket, err := upgrader.Upgrade(w, r, nil)
+		if err != nil {
+			log.Fatal("ServeHTTP:", err)
+			return
+		}
+		newClient(socket, ps.ByName("room_id"), GetCurrentUser(r))
+	})
 
 	// negroniミドルウェア生成
 	n := negroni.Classic()
