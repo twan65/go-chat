@@ -34,6 +34,7 @@ func init() {
 	// renderer生成
 	renderer = render.New()
 
+	// MongoDBの情報（認証情報を含む）
 	mongoInfo := &mgo.DialInfo{
 		Addrs:    []string{"localhost:27017"},
 		Timeout:  20 * time.Second,

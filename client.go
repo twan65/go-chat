@@ -106,7 +106,7 @@ func (c *Client) read() (*Message, error) {
 }
 
 func (c *Client) write(m *Message) error {
-	log.Println("write to websocket:", m)
+	log.Println("websocketに送信:", m)
 
 	// WebsocketコネクションにJSONでメッセージを渡す。
 	return c.conn.WriteJSON(m)
