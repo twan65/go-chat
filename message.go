@@ -62,3 +62,16 @@ func retrieveMessages(w http.ResponseWriter, r *http.Request, ps httprouter.Para
 	// 結果を返す
 	renderer.JSON(w, http.StatusOK, messages)
 }
+
+// TODO
+func deleteMessage(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
+	// session := mongoSession.Copy()
+	// defer session.Close()
+
+	// err := session.DB("test").C("messages").RemoveId(bson.M{"room_id": bson.ObjectIdHex(ps.ByName("room_id"))})
+	// if err != nil {
+	// 	renderer.JSON(w, http.StatusInternalServerError, err)
+	// 	return
+	// }
+	// renderer.JSON(w, http.StatusNoContent, nil)
+}
