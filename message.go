@@ -65,13 +65,15 @@ func retrieveMessages(w http.ResponseWriter, r *http.Request, ps httprouter.Para
 
 // TODO
 func deleteMessage(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
-	// session := mongoSession.Copy()
-	// defer session.Close()
+	session := mongoSession.Copy()
+	defer session.Close()
 
-	// err := session.DB("test").C("messages").RemoveId(bson.M{"room_id": bson.ObjectIdHex(ps.ByName("room_id"))})
-	// if err != nil {
-	// 	renderer.JSON(w, http.StatusInternalServerError, err)
-	// 	return
-	// }
-	// renderer.JSON(w, http.StatusNoContent, nil)
+	colQuerier := bson.M{"room_id": bson.ObjectIdHex(ps.ByName("room_id")), "message_id": bson.ObjectIdHex(ps.ByName("id"))}
+
+	err := session.DB("test").C("messages").RemoveId(colQuerier)
+	if err != nil {
+		renderer.JSON(w, http.StatusInternalServerError, err)
+		return
+	}
+	renderer.JSON(w, http.StatusNoContent, nil)
 }
