@@ -68,7 +68,7 @@ func deleteMessage(w http.ResponseWriter, req *http.Request, ps httprouter.Param
 	session := mongoSession.Copy()
 	defer session.Close()
 
-	colQuerier := bson.M{"room_id": bson.ObjectIdHex(ps.ByName("room_id")), "message_id": bson.ObjectIdHex(ps.ByName("id"))}
+	colQuerier := bson.M{"room_id": bson.ObjectIdHex(ps.ByName("room_id")), "_id": bson.ObjectIdHex(ps.ByName("id"))}
 
 	err := session.DB("test").C("messages").RemoveId(colQuerier)
 	if err != nil {
