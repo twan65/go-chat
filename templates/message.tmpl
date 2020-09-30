@@ -76,9 +76,12 @@
     $(function() {
         var msgBox = $("#chatbox input#message");
         $("#chatbox").submit(function() {
-            if (!msgBox.val()) return false;
+            if (!msgBox.val()) {
+                return false;
+                alert('メッセージを入力してください。');
+            }
             if (!socket) {
-                console.log("Error: There is no socket connection.");
+                console.log("Error: ソケットに接続されていません。");
                 return false;
             }
             waitForSocketConnection(socket, function() {
