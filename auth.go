@@ -88,7 +88,7 @@ func LoginRequired(ignore ...string) negroni.HandlerFunc {
 				return
 			}
 		}
-		// CurrentUser情報取得
+		// セッションからCurrentUser情報取得
 		u := GetCurrentUser(r)
 
 		// CurrentUser情報が有効の場合、満了時間を更新して次のハンドラを実行
