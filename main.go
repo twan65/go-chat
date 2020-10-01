@@ -75,13 +75,13 @@ func main() {
 	})
 
 	router.GET("/auth/:action/:provider", loginHandler)
-	router.GET("/rooms", retrieveRooms)
-	router.GET("/rooms/:id", retrieveRoom)
+	router.GET("/rooms", getRooms)
+	router.GET("/rooms/:id", getRoom)
 	router.POST("/rooms", createRoom)
 	router.DELETE("/rooms/:id", deleteRoom)
 	router.DELETE("/messages/:room_id/:id", deleteMessage)
 
-	router.GET("/rooms/:id/messages", retrieveMessages)
+	router.GET("/rooms/:id/messages", getMessages)
 
 	router.GET("/ws/:room_id", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		socket, err := upgrader.Upgrade(w, r, nil)

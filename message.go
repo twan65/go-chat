@@ -38,7 +38,7 @@ func (m *Message) create() error {
 	return nil
 }
 
-func retrieveMessages(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func getMessages(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	// MongDBのセッション生成
 	session := mongoSession.Copy()
 	defer session.Close()

@@ -46,7 +46,7 @@ func createRoom(w http.ResponseWriter, req *http.Request, ps httprouter.Params) 
 	renderer.JSON(w, http.StatusCreated, r)
 }
 
-func retrieveRooms(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
+func getRooms(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
 
 	session := mongoSession.Copy()
 	defer session.Close()
@@ -62,7 +62,7 @@ func retrieveRooms(w http.ResponseWriter, req *http.Request, ps httprouter.Param
 	renderer.JSON(w, http.StatusOK, rooms)
 }
 
-func retrieveRoom(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
+func getRoom(w http.ResponseWriter, req *http.Request, ps httprouter.Params) {
 	session := mongoSession.Copy()
 	defer session.Close()
 
