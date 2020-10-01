@@ -79,7 +79,7 @@ func main() {
 	router.GET("/rooms/:id", retrieveRoom)
 	router.POST("/rooms", createRoom)
 	router.DELETE("/rooms/:id", deleteRoom)
-	router.DELETE("/rooms/:room_id/:id", deleteMessage)
+	router.DELETE("/messages/:room_id/:id", deleteMessage)
 
 	router.GET("/rooms/:id/messages", retrieveMessages)
 
