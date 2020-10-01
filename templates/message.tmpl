@@ -77,8 +77,8 @@
         var msgBox = $("#chatbox input#message");
         $("#chatbox").submit(function() {
             if (!msgBox.val()) {
+                alert("メッセージを入力してください。");
                 return false;
-                alert('メッセージを入力してください。');
             }
             if (!socket) {
                 console.log("Error: ソケットに接続されていません。");
